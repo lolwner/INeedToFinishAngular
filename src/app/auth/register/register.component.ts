@@ -8,6 +8,10 @@ import { RegisterUser } from 'src/app/shared/registerUser';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
+
+//TODO: Reactive form
+//TODO: Add the rest of fields
+
 export class RegisterComponent implements OnInit {
   model: RegisterUser = {
     userName: '',
@@ -42,22 +46,15 @@ export class RegisterComponent implements OnInit {
   async onSubmit() {
     this.submitted = true;
     console.log(this.model);
-    // RegisterComponent.testRequest(this.model).subscribe({
-    //   next(x) { success = true; },
-    //   error(err) { console.error('something wrong occurred: ' + err); },
-    //   complete() { console.log('done'); }
-    // })
 
-    RegisterComponent.testRequest(this.model).subscribe(val => this.processPostBack(val))
+    this.testRequest(this.model).subscribe(val => this.processPostBack(val), (err => {console.log(err)}))
 
   }
 
-
-
-  public static testRequest(model: RegisterUser) {
+  public testRequest(model: RegisterUser): Observable<RegisterUser> {
     const response = model;
 
-    let obs = new Observable((subscriber) => {
+    let obs = new Observable<RegisterUser>((subscriber) => {
       setTimeout(() => {
         if (model.userName == '1') {
           subscriber.next(response);
