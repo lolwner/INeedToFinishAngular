@@ -11,6 +11,8 @@ import { RegisterUser } from 'src/app/shared/registerUser';
 
 //TODO: Reactive form
 //TODO: Add the rest of fields
+//TODO: Accessibilty features - optional
+//TODO: UNIT TESTS
 
 export class RegisterComponent implements OnInit {
   model: RegisterUser = {
