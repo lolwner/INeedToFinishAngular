@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { RegisterUser } from 'src/app/shared/registerUser';
 
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',

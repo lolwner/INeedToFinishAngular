@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { RegisterReactiveComponent } from './register-reactive/register-reactive.component';
 import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
-    { path: 'register', component: RegisterComponent }
+    { path: 'register', component: RegisterComponent },
+    { path: 'registerReactive', component: RegisterReactiveComponent }
 ];
 
 @NgModule({
@@ -11,5 +13,5 @@ const routes: Routes = [
     exports: [RouterModule]
 })
 export class AuthRoutingModule {
-    static components = [RegisterComponent];
+    static components = [RegisterComponent, RegisterReactiveComponent];
 }

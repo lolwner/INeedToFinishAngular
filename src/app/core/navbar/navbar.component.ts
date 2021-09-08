@@ -17,4 +17,9 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/register']);
   }
 
+  RegisterReactiveRedirect(){
+    this.router.navigate(['/registerReactive']);
+
+  }
+
 }
