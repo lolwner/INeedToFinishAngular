@@ -1,6 +1,9 @@
-<div>
-    Color: <input type="text" [formControl]="favoriteColorControl">
-    <p>Value: {{ favoriteColorControl.value }}</p>
+<div class="container">
+    <form [formGroup]="profileForm" (ngSubmit)="submit()">
+        <label for="favoriteColorControl" class="form-label">Color: </label>
+        <input id="favoriteColorControl" type="text" formControlName="favoriteColorControl">
+        <!-- <p>Value: {{ favoriteColorControl.value }}</p> -->
 
-    <button (click)="submit()">Submit</button>
+        <button type="submit" [disabled]="!profileForm.valid">Submit</button>
+    </form>
 </div>

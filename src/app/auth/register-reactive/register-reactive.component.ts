@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-register-reactive',
@@ -7,17 +7,18 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./register-reactive.component.css']
 })
 export class RegisterReactiveComponent implements OnInit {
-
-  favoriteColorControl = new FormControl('');
+  profileForm = new FormGroup({
+    favoriteColorControl: new FormControl('')
+  });
 
   constructor() { }
 
   ngOnInit(): void {
-    this.favoriteColorControl.setValue('Set value');
+    // this.profileForm.favoriteColorControl.setValue('Set value');
   }
 
-  submit(){
-    console.log(this.favoriteColorControl.value);
+  submit() {
+    console.log(this.profileForm.value);
   }
 
 }

@@ -1,20 +1,22 @@
-<form (ngSubmit)="onSubmit()" #heroForm="ngForm">
-    <div class="form-group">
-        <label for="name">Username</label>
-        <input type="text" class="form-control" id="name" required maxlength="50" [(ngModel)]="model.userName"
-            name="name" #name="ngModel" style='max-width: 200px;'>
-        <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
-            Username is required
+<div class="container">
+    <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+        <div class="mb-3">
+            <label for="name" class="form-label">Username</label>
+            <input type="text" class="form-control" id="name" required maxlength="50" [(ngModel)]="model.userName"
+                name="name" #name="ngModel" style='max-width: 200px;'>
+            <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                Username is required
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" class="form-control" id="email" required email [(ngModel)]="model.email" name="email"
-            style='max-width: 200px;'>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" required email [(ngModel)]="model.email" name="email"
+                style='max-width: 200px;'>
 
-    </div>
+        </div>
 
 
-    <button type="submit" class="btn btn-success" [disabled]="!heroForm.form.valid">Submit</button>
-</form>
+        <button type="submit" class="btn btn-primary" [disabled]="!heroForm.form.valid">Submit</button>
+    </form>
+</div>
