@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register-reactive',
@@ -8,7 +8,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class RegisterReactiveComponent implements OnInit {
   profileForm = new FormGroup({
-    favoriteColorControl: new FormControl('')
+    firstName: new FormControl('', Validators.required),
+    lastName: new FormControl('', Validators.required)
   });
 
   constructor() { }

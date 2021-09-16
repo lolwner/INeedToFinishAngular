@@ -1,9 +1,37 @@
 <div class="container">
     <form [formGroup]="profileForm" (ngSubmit)="submit()">
-        <label for="favoriteColorControl" class="form-label">Color: </label>
-        <input id="favoriteColorControl" type="text" formControlName="favoriteColorControl">
+        <div class="mb-3">
+            <label for="firstName" class="form-label">firstName: </label>
+            <input id="firstName" class="form-control" type="text" formControlName="firstName">
+        </div>
+
+        <div class="mb-3">
+            <label for="lastName" class="form-label">lastName: </label>
+            <input id="lastName" class="form-control" type="text" formControlName="lastName">
+        </div>
+
+        <div class="mb-3">
+            <label for="firstName" class="form-label">firstName: </label>
+            <input id="firstName" class="form-control" type="text" formControlName="firstName">
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">email: </label>
+            <input id="email" class="form-control" type="email" formControlName="firstName">
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">password: </label>
+            <input id="password" class="form-control" type="text" formControlName="password">
+        </div>
+
+        <div class="mb-3">
+            <label for="confirmPassword" class="form-label">confirmPassword: </label>
+            <input id="confirmPassword" class="form-control" type="text" formControlName="confirmPassword">
+        </div>
+
         <!-- <p>Value: {{ favoriteColorControl.value }}</p> -->
 
-        <button type="submit" [disabled]="!profileForm.valid">Submit</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid">Submit</button>
     </form>
 </div>
