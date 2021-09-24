@@ -4,7 +4,7 @@ export function ConfirmPasswordValidator(controlName: string, matchingControlNam
     return (formGroup: FormGroup) => {
         const control = formGroup.controls[controlName];
         const matchingControl = formGroup.controls[matchingControlName];
-
+        console.log("atr");
         if (matchingControl.errors && !matchingControl.errors.mustMatch) {
             return;
         }

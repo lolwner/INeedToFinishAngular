@@ -1,31 +1,88 @@
 <div class="container">
     <form [formGroup]="profileForm" (ngSubmit)="submit()">
-        <div class="mb-3">
-            <label for="firstName" class="form-label">firstName: </label>
-            <input id="firstName" class="form-control" type="text" formControlName="firstName">
+        <div formGroupName="profileUserDataForm">
+
+            <div class="mb-3">
+                <label for="userName" class="form-label">User name: </label>
+                <input id="userName" class="form-control" type="text" formControlName="userName"
+                    [ngClass]="{ 'is-invalid': userName?.errors }" style='max-width: 200px;'>
+                <div *ngIf="userName?.errors?.required">
+                    User name is required.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="firstName" class="form-label">First name: </label>
+                <input id="firstName" class="form-control" type="text" formControlName="firstName"
+                    [ngClass]="{ 'is-invalid': firstName?.errors }" style='max-width: 200px;'>
+                <div *ngIf="firstName?.errors?.required">
+                    Name is required.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="lastName" class="form-label">Last name: </label>
+                <input id="lastName" class="form-control" type="text" formControlName="lastName"
+                    [ngClass]="{ 'is-invalid': lastName?.errors }" style='max-width: 200px;'>
+                <div *ngIf="lastName?.errors?.required">
+                    Last name is required.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="gender" class="form-label">Gender: </label>
+                <select class="form-control" [ngClass]="{ 'is-invalid': gender?.errors }" formControlName="gender"
+                    style='max-width: 200px;'>
+                    <option value="null" disabled>Choose your gender</option>
+                    <option *ngFor="let gender of eGender | keyvalue" [value]="gender.value">{{gender.value}}</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email: </label>
+                <input id="email" class="form-control" type="email" formControlName="email"
+                    [ngClass]="{ 'is-invalid': email?.errors }" style='max-width: 200px;'>
+            </div>
+
+            <div class="mb-3">
+                <ng-container *ngFor="let lessonForm of addressArr.controls; let i = index">
+                    <div formGroupName="addressForm">
+                        <div class="mb-3">
+                            <label for="lineOne" class="form-label">First address line: </label>
+                            <input id="lineOne" class="form-control" type="text" formControlName="lineOne"
+                                style='max-width: 200px;'>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="lineTwo" class="form-label">Second address line: </label>
+                            <input id="lineTwo" class="form-control" type="text" formControlName="lineTwo"
+                                style='max-width: 200px;'>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+
+            <button mat-mini-fab (click)="addAddress()">add
+            </button>
         </div>
 
-        <div class="mb-3">
-            <label for="lastName" class="form-label">lastName: </label>
-            <input id="lastName" class="form-control" type="text" formControlName="lastName">
-        </div>
+        <div formGroupName="profilePasswordForm">
+            <div class="mb-3">
+                <label for="password" class="form-label">Password: </label>
+                <input id="password" class="form-control" type="password" formControlName="password"
+                    [ngClass]="{ 'is-invalid': password?.errors }" style='max-width: 200px;'>
 
-        <div class="mb-3">
-            <label for="email" class="form-label">email: </label>
-            <input id="email" class="form-control" type="email" formControlName="firstName">
-        </div>
+                <div *ngIf="password?.errors?.pattern">
+                    Name cannot be Bob.
+                </div>
+            </div>
 
-        <div class="mb-3">
-            <label for="password" class="form-label">password: </label>
-            <input id="password" class="form-control" type="password" formControlName="password">
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirm password: </label>
+                <input id="confirmPassword" class="form-control" type="password" formControlName="confirmPassword"
+                    style='max-width: 200px;'>
+            </div>
         </div>
-
-        <div class="mb-3">
-            <label for="confirmPassword" class="form-label">confirmPassword: </label>
-            <input id="confirmPassword" class="form-control" type="password" formControlName="confirmPassword">
-        </div>
-
-        <!-- <p>Value: {{ favoriteColorControl.value }}</p> -->
 
         <button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid">Submit</button>
     </form>
