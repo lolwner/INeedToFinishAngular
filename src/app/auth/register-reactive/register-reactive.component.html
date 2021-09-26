@@ -1,21 +1,24 @@
 <div class="container">
     <form [formGroup]="profileForm" (ngSubmit)="submit()">
-        <div formGroupName="profileUserDataForm">
 
-            <div class="mb-3">
-                <label for="userName" class="form-label">User name: </label>
-                <input id="userName" class="form-control" type="text" formControlName="userName"
-                    [ngClass]="{ 'is-invalid': userName?.errors }" style='max-width: 200px;'>
-                <div *ngIf="userName?.errors?.required">
-                    User name is required.
-                </div>
+        <div class="mb-3">
+            <label for="userName" class="form-label">User name: </label>
+            <input id="userName" class="form-control" type="text" formControlName="userName"
+                [ngClass]="{ 'is-invalid': profileForm.controls['userName']?.errors }" style='max-width: 200px;'>
+            <div *ngIf="profileForm.controls['userName']?.errors?.required">
+                User name is required.
             </div>
+            <div *ngIf="profileForm.controls['userName']?.errors?.minLength">
+                User name is too short.
+            </div>
+        </div>
 
-            <div class="mb-3">
+        <!-- <div class="mb-3">
                 <label for="firstName" class="form-label">First name: </label>
                 <input id="firstName" class="form-control" type="text" formControlName="firstName"
-                    [ngClass]="{ 'is-invalid': firstName?.errors }" style='max-width: 200px;'>
-                <div *ngIf="firstName?.errors?.required">
+                    [ngClass]="{ 'is-invalid': profileForm.value.profileUserDataForm.firstName?.errors }"
+                    style='max-width: 200px;'>
+                <div *ngIf="profileForm.value.profileUserDataForm.firstName?.errors?.required">
                     Name is required.
                 </div>
             </div>
@@ -60,11 +63,10 @@
                         </div>
                     </div>
                 </ng-container>
-            </div>
+            </div> -->
 
-            <button mat-mini-fab (click)="addAddress()">add
-            </button>
-        </div>
+        <button mat-mini-fab (click)="addAddress()">add
+        </button>
 
         <div formGroupName="profilePasswordForm">
             <div class="mb-3">
@@ -73,7 +75,7 @@
                     [ngClass]="{ 'is-invalid': password?.errors }" style='max-width: 200px;'>
 
                 <div *ngIf="password?.errors?.pattern">
-                    Name cannot be Bob.
+                    Password need to be stronger
                 </div>
             </div>
 

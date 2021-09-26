@@ -22,18 +22,20 @@ export class RegisterReactiveComponent implements OnInit {
   }
 
   profileForm = this.fb.group({
-    profileUserDataForm: this.fb.group(
-      {
-        userName: ["", Validators.required],
+    //TODO: remove that group, rename to not use 'form', rename field to be names as ..Conrols
+    //profileUserDataForm: this.fb.group(
+     // {
+        userName: this.fb.control("", [Validators.required, Validators.minLength(6)]),
         firstName: ["", Validators.required],
         lastName: ["", Validators.required],
         gender: ["", Validators.required],
         email: ["", [Validators.required, Validators.email]],
-        address: this.fb.array([])
-      }),
+        address: this.fb.array([]),
+   //   }),
+    //TODO: rename to passwordGroup
     profilePasswordForm: this.fb.group(
       {
-        password: ["", Validators.required],
+        password: this.fb.control("", Validators.required),
         confirmPassword: ["", Validators.required]
       },
       {
@@ -53,17 +55,15 @@ export class RegisterReactiveComponent implements OnInit {
   ngOnInit() {
   };
 
-  get f(): { [key: string]: AbstractControl } {
-    return this.profileForm.controls;
+  get profileUserControl(): FormGroup {
+    console.log(this.profileForm);
+    return this.profileForm.get("profileUserDataForm") as FormGroup;
   }
 
-  get userName() {
-    return this.profileForm.get(["profileUserDataForm", "userName"]);
+  get userNameControl() : FormControl {
+    return this.profileUserControl.get("userName") as FormControl;
   }
 
-  get firstName() {
-    return this.profileForm.get(["profileUserDataForm", "firstName"]);
-  }
 
   get lastName() {
     return this.profileForm.get(["profileUserDataForm", "lastName"]);
@@ -98,7 +98,7 @@ export class RegisterReactiveComponent implements OnInit {
       email: this.profileForm.value.profileUserDataForm.email,
       gender: this.profileForm.value.profileUserDataForm.gender,
       firstName: this.profileForm.value.profileUserDataForm.firstName,
-      lastName:this.profileForm.value.profileUserDataForm.lastName,
+      lastName: this.profileForm.value.profileUserDataForm.lastName,
       password: this.profileForm.value.profilePasswordForm.password,
       confirmPassword: ''
     };
@@ -113,6 +113,6 @@ export class RegisterReactiveComponent implements OnInit {
   public processPostBack(value: any) {
     console.log(value);
     this.router.navigate(['/']);
-}
+  }
 
 }
