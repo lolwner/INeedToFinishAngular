@@ -5,5 +5,6 @@ export interface RegisterUser {
     firstName: string,
     lastName: string,
     password: string,
-    confirmPassword: string
+    confirmPassword: string,
+    addresses: string
 }

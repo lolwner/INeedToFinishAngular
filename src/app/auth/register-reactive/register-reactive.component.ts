@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { merge, Observable, timer } from 'rxjs';
 import { AuthService } from 'src/app/core/services/authService';
 import { Gender } from 'src/app/shared/gendersEnum';
 import { RegisterUser } from 'src/app/shared/registerUser';
 import { ConfirmPasswordValidator } from 'src/app/shared/validators/confirm-password.validator';
-
-
+import { FormValidationService } from 'src/app/shared/validators/formValidationService';
+import { switchMap, distinctUntilChanged, map } from 'rxjs/operators';
+import { UsernameResponse } from 'src/app/shared/usernameResponse';
 
 @Component({
   selector: 'app-register-reactive',
@@ -17,93 +19,140 @@ export class RegisterReactiveComponent implements OnInit {
 
   pwdPattern = "^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$";
   eGender = Gender;
+  controlErrors$: Array<[string, Observable<string>]>;
+  userNameError$: Observable<string>;
+  firstNameError$: Observable<string>;
+  lastNameError$: Observable<string>;
+  genderError$: Observable<string>;
+  emailError$: Observable<string>;
+  confirmPasswordError$: Observable<string>;
+  passwordError$: Observable<string>;
 
-  constructor(public fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private formValidationService: FormValidationService) {
   }
 
   profileForm = this.fb.group({
-    //TODO: remove that group, rename to not use 'form', rename field to be names as ..Conrols
-    //profileUserDataForm: this.fb.group(
-     // {
-        userName: this.fb.control("", [Validators.required, Validators.minLength(6)]),
-        firstName: ["", Validators.required],
-        lastName: ["", Validators.required],
-        gender: ["", Validators.required],
-        email: ["", [Validators.required, Validators.email]],
-        address: this.fb.array([]),
-   //   }),
-    //TODO: rename to passwordGroup
-    profilePasswordForm: this.fb.group(
+    userNameControl: this.fb.control("", [Validators.required, Validators.minLength(6)]),
+    firstNameControl: this.fb.control("", Validators.required),
+    lastNameControl: this.fb.control("", Validators.required),
+    genderControl: this.fb.control("", Validators.required),
+    emailControl: this.fb.control("", [Validators.required, Validators.email]),
+    addressControl: this.fb.array([this.createAddressControl()]),
+    passwordGroup: this.fb.group({
+      passwordControl: this.fb.control(""),
+      confirmPasswordControl: this.fb.control("")
+    },
       {
-        password: this.fb.control("", Validators.required),
-        confirmPassword: ["", Validators.required]
-      },
-      {
-        validator: ConfirmPasswordValidator('password', 'confirmPassword')
+        validator: ConfirmPasswordValidator('passwordControl', 'confirmPasswordControl')
       })
   });
 
-  addAddress() {
-    const addressForm = this.fb.group({
-      lineOne: 'City, state, etc.',
-      lineTwo: ''
+  createAddressControl(): FormGroup {
+    return this.fb.group({
+      lineOneControl: this.fb.control("City, state, etc"),
+      lineTwoControl: this.fb.control("")
     });
+  }
 
-    this.addressArr.push(addressForm);
+  addAddress() {
+    this.addressControl.push(this.createAddressControl());
   }
 
   ngOnInit() {
+    this.userNameError$ = merge(
+      this.formValidationService.error$(this.userNameControl),
+      this.formValidationService.asyncError$(this.userNameControl)
+    );
+
+    this.firstNameError$ = merge(
+      this.formValidationService.error$(this.firstNameControl),
+      this.formValidationService.asyncError$(this.firstNameControl)
+    );
+
+    this.lastNameError$ = merge(
+      this.formValidationService.error$(this.lastNameControl),
+      this.formValidationService.asyncError$(this.lastNameControl)
+    );
+
+    this.genderError$ = merge(
+      this.formValidationService.error$(this.genderControl),
+      this.formValidationService.asyncError$(this.genderControl)
+    );
+
+    this.genderError$ = merge(
+      this.formValidationService.error$(this.genderControl),
+      this.formValidationService.asyncError$(this.genderControl)
+    );
+
+    this.emailError$ = merge(
+      this.formValidationService.error$(this.emailControl),
+      this.formValidationService.asyncError$(this.emailControl)
+    );
+
+    this.passwordError$ = merge(
+      this.formValidationService.error$(this.passwordControl),
+      this.formValidationService.asyncError$(this.passwordControl)
+    );
+
+    this.confirmPasswordError$ = merge(
+      this.formValidationService.error$(this.confirmPasswordControl),
+      this.formValidationService.asyncError$(this.confirmPasswordControl)
+    );
   };
 
-  get profileUserControl(): FormGroup {
-    console.log(this.profileForm);
-    return this.profileForm.get("profileUserDataForm") as FormGroup;
+  get userNameControl(): FormControl {
+    return this.profileForm.get("userNameControl") as FormControl;
   }
 
-  get userNameControl() : FormControl {
-    return this.profileUserControl.get("userName") as FormControl;
+  get firstNameControl(): FormControl {
+    return this.profileForm.get("firstNameControl") as FormControl;
   }
 
-
-  get lastName() {
-    return this.profileForm.get(["profileUserDataForm", "lastName"]);
+  get lastNameControl(): FormControl {
+    return this.profileForm.get("lastNameControl") as FormControl;
   }
 
-  get gender() {
-    return this.profileForm.get(["profileUserDataForm", "gender"]);
+  get genderControl(): FormControl {
+    return this.profileForm.get("genderControl") as FormControl;
   }
 
-  get email() {
-    return this.profileForm.get(["profileUserDataForm", "email"]);
+  get emailControl(): FormControl {
+    return this.profileForm.get("emailControl") as FormControl;
   }
 
-  get addressArr() {
-    return this.profileForm.get(["profileUserDataForm", "address"]) as FormArray;
+  get addressControl(): FormArray {
+    return this.profileForm.get("addressControl") as FormArray;
   }
 
-  get password() {
-    return this.profileForm.get(["profilePasswordForm", "password"]);
+  get lineOneControl(): FormControl {
+    return this.profileForm.get("lineOneControl") as FormControl;
   }
 
-  get confirmPassword() {
-    return this.profileForm.get(["profilePasswordForm", "confirmPassword"]);
+  get lineTwoControl(): FormControl {
+    return this.profileForm.get("lineTwoControl") as FormControl;
   }
 
+  get passwordControl(): FormControl {
+    return this.profileForm.get(["passwordGroup", "passwordControl"]) as FormControl;
+  }
 
+  get confirmPasswordControl(): FormControl {
+    return this.profileForm.get(["passwordGroup", "confirmPasswordControl"]) as FormControl;
+  }
 
 
   submit() {
     var model: RegisterUser = {
-      userName: this.profileForm.value.profileUserDataForm.userName,
-      email: this.profileForm.value.profileUserDataForm.email,
-      gender: this.profileForm.value.profileUserDataForm.gender,
-      firstName: this.profileForm.value.profileUserDataForm.firstName,
-      lastName: this.profileForm.value.profileUserDataForm.lastName,
-      password: this.profileForm.value.profilePasswordForm.password,
-      confirmPassword: ''
+      userName: this.userNameControl.value,
+      email: this.emailControl.value,
+      gender: this.genderControl.value,
+      firstName: this.firstNameControl.value,
+      lastName: this.lastNameControl.value,
+      password: this.passwordControl.value,
+      confirmPassword: '',
+      addresses: this.addressControl.value
     };
 
-    console.log(this.profileForm.value);
     console.log(model);
     this.authService.testRequest(model).subscribe(val => this.processPostBack(val), (err => { console.log(err) }))
 

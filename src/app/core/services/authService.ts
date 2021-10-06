@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { RegisterUser } from 'src/app/shared/registerUser';
+import { UsernameResponse } from 'src/app/shared/usernameResponse';
 
 @Injectable({
     providedIn: 'root'
@@ -26,6 +27,10 @@ export class AuthService {
         });
         return obs;
     }
+
+    public async checkUsernameIsValidAsync(input): Promise<UsernameResponse> {
+        return null;
+      }
 
     
 }

@@ -10,21 +10,22 @@ export class FormValidationService {
     //TODO: mobe strings to file
 
     private defaultRules = {
-        required: () => 'Shared.Validation.Required',
+        required: () => 'Required field',
+        email: () => 'Invalid email format',
+        mustMatch: () => 'Confirm password does not match',
         unique: () => 'Shared.Validation.Unique',
-        // step: (step: number) => 'Shared.Validation.Step' + step,
-        // min: (min: number) => 'Shared.Validation.Min'+ min,
-        // max: (max: number) => 'Shared.Validation.Max') + max,
-        // minlength: (minLength: number) => 'Shared.Validation.MinLength')
-        //     + minLength + 'Shared.Validation.CharactersPrefix'),
-        // maxlength: (maxLength: number) => 'Shared.Validation.MaxLength')
-        //     + maxLength + 'Shared.Validation.CharactersPrefix'),
-        // minError: (min: number) => 'Shared.Validation.Min') + min,
-        // maxError: (max: number) => 'Shared.Validation.Max') + max,
-        // noWhiteSpace: () => 'Shared.Validation.NoWhiteSpace'),
-        // whitespaceAtTheBeginning: () => 'Shared.Validation.WhitespaceAtTheBeginning'),
-        // whitespaceAtTheEnd: () => 'Shared.Validation.WhitespaceAtTheEnd'),
-        // multipleWhitespaces: () => 'Shared.Validation.MultipleWhitespaces')
+        step: (step: number) => 'Shared.Validation.Step' + step,
+        min: (min: number) => 'Minimun value is ' + min,
+        max: (max: number) => 'Shared.Validation.Max' + max,
+        minlength: (minLength: number) => 'Minimun ' + minLength + ' characters',
+        maxlength: (maxLength: number) => 'Shared.Validation.MaxLength'
+            + maxLength + 'Shared.Validation.CharactersPrefix',
+        minError: (min: number) => 'Shared.Validation.Min' + min,
+        maxError: (max: number) => 'Shared.Validation.Max' + max,
+        noWhiteSpace: () => 'Shared.Validation.NoWhiteSpace',
+        whitespaceAtTheBeginning: () => 'Shared.Validation.WhitespaceAtTheBeginning',
+        whitespaceAtTheEnd: () => 'Shared.Validation.WhitespaceAtTheEnd',
+        multipleWhitespaces: () => 'Shared.Validation.MultipleWhitespaces'
     };
 
     constructor() {
@@ -43,7 +44,7 @@ export class FormValidationService {
             share())
 
     validateForm(group: FormGroup | FormArray): void {
-        Object.keys(group.controls).forEach((key: string) => {
+        Object.keys(group.controls as { [key: string]: AbstractControl; }).forEach((key: string) => {
             const abstractControl = group.controls[key];
 
             if (abstractControl instanceof FormGroup || abstractControl instanceof FormArray) {

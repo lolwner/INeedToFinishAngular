@@ -1,91 +1,95 @@
 <div class="container">
-    <form [formGroup]="profileForm" (ngSubmit)="submit()">
+    <form [formGroup]="profileForm" (ngSubmit)="submit()" style='max-width: 200px;'>
 
         <div class="mb-3">
-            <label for="userName" class="form-label">User name: </label>
-            <input id="userName" class="form-control" type="text" formControlName="userName"
-                [ngClass]="{ 'is-invalid': profileForm.controls['userName']?.errors }" style='max-width: 200px;'>
-            <div *ngIf="profileForm.controls['userName']?.errors?.required">
-                User name is required.
-            </div>
-            <div *ngIf="profileForm.controls['userName']?.errors?.minLength">
-                User name is too short.
+            <label for="userNameControl" class="form-label">User name: </label>
+            <input id="userNameControl" class="form-control" [class.is-invalid]="userNameError$ | async" type="text"
+                formControlName="userNameControl" autocomplete="off">
+            <div class="invalid-feedback position-absolute">
+                <span [textContent]="userNameError$ | async"></span>
             </div>
         </div>
 
-        <!-- <div class="mb-3">
-                <label for="firstName" class="form-label">First name: </label>
-                <input id="firstName" class="form-control" type="text" formControlName="firstName"
-                    [ngClass]="{ 'is-invalid': profileForm.value.profileUserDataForm.firstName?.errors }"
-                    style='max-width: 200px;'>
-                <div *ngIf="profileForm.value.profileUserDataForm.firstName?.errors?.required">
-                    Name is required.
-                </div>
+        <div class="mb-3">
+            <label for="firstNameControl" class="form-label">First name: </label>
+            <input id="firstNameControl" class="form-control" [class.is-invalid]="firstNameError$ | async" type="text"
+                formControlName="firstNameControl" autocomplete="off">
+            <div class="invalid-feedback position-absolute">
+                <span [textContent]="firstNameError$ | async"></span>
             </div>
+        </div>
 
-            <div class="mb-3">
-                <label for="lastName" class="form-label">Last name: </label>
-                <input id="lastName" class="form-control" type="text" formControlName="lastName"
-                    [ngClass]="{ 'is-invalid': lastName?.errors }" style='max-width: 200px;'>
-                <div *ngIf="lastName?.errors?.required">
-                    Last name is required.
-                </div>
+        <div class="mb-3">
+            <label for="lastNameControl" class="form-label">Last name: </label>
+            <input id="lastNameControl" class="form-control" [class.is-invalid]="lastNameError$ | async" type="text"
+                formControlName="lastNameControl" autocomplete="off">
+            <div class="invalid-feedback position-absolute">
+                <span [textContent]="lastNameError$ | async"></span>
             </div>
+        </div>
 
-            <div class="mb-3">
-                <label for="gender" class="form-label">Gender: </label>
-                <select class="form-control" [ngClass]="{ 'is-invalid': gender?.errors }" formControlName="gender"
-                    style='max-width: 200px;'>
-                    <option value="null" disabled>Choose your gender</option>
-                    <option *ngFor="let gender of eGender | keyvalue" [value]="gender.value">{{gender.value}}</option>
-                </select>
+        <div class="mb-3">
+            <label for="genderControl" class="form-label">Gender: </label>
+            <select class="form-control" formControlName="genderControl" [class.is-invalid]="genderError$ | async">
+                <option value="null" disabled>Choose your gender</option>
+                <option *ngFor="let gender of eGender | keyvalue" [value]="gender.value">{{gender.value}}</option>
+            </select>
+            <div class="invalid-feedback position-absolute">
+                <span [textContent]="genderError$ | async"></span>
             </div>
+        </div>
 
-            <div class="mb-3">
-                <label for="email" class="form-label">Email: </label>
-                <input id="email" class="form-control" type="email" formControlName="email"
-                    [ngClass]="{ 'is-invalid': email?.errors }" style='max-width: 200px;'>
+        <div class="mb-3">
+            <label for="emailControl" class="form-label">Email: </label>
+            <input id="emailControl" class="form-control" [class.is-invalid]="emailError$ | async" type="email"
+                formControlName="emailControl" autocomplete="off">
+            <div class="invalid-feedback position-absolute">
+                <span [textContent]="emailError$ | async"></span>
             </div>
+        </div>
 
-            <div class="mb-3">
-                <ng-container *ngFor="let lessonForm of addressArr.controls; let i = index">
-                    <div formGroupName="addressForm">
-                        <div class="mb-3">
-                            <label for="lineOne" class="form-label">First address line: </label>
-                            <input id="lineOne" class="form-control" type="text" formControlName="lineOne"
-                                style='max-width: 200px;'>
-                        </div>
+        <div class="mb-3">
+            <ng-container formArrayName="addressControl">
+                <div *ngFor="let addressItem of addressControl.controls; let i = index">
+                    <div [formGroupName]="i">
+                        <label for="lineOneControl" class="form-label">First address line: </label>
+                        <input id="lineOneControl" class="form-control" type="text"
+                            formControlName="lineOneControl" autocomplete="off">
 
-                        <div class="mb-3">
-                            <label for="lineTwo" class="form-label">Second address line: </label>
-                            <input id="lineTwo" class="form-control" type="text" formControlName="lineTwo"
-                                style='max-width: 200px;'>
-                        </div>
+                        <label for="lineTwoControl" class="form-label">Second address line: </label>
+                        <input id="lineTwoControl" class="form-control" type="text"
+                            formControlName="lineTwoControl" autocomplete="off">
                     </div>
-                </ng-container>
-            </div> -->
+                </div>
+            </ng-container>
+        </div>
 
-        <button mat-mini-fab (click)="addAddress()">add
+        <button class="btn btn-primary" (click)="addAddress()">Add address line
         </button>
 
-        <div formGroupName="profilePasswordForm">
+        <div formGroupName="passwordGroup">
             <div class="mb-3">
-                <label for="password" class="form-label">Password: </label>
-                <input id="password" class="form-control" type="password" formControlName="password"
-                    [ngClass]="{ 'is-invalid': password?.errors }" style='max-width: 200px;'>
-
-                <div *ngIf="password?.errors?.pattern">
-                    Password need to be stronger
+                <label for="passwordControl" class="form-label">Password: </label>
+                <input id="passwordControl" class="form-control" class="form-control"
+                    [class.is-invalid]="passwordError$ | async" type="password" formControlName="passwordControl"
+                    autocomplete="off">
+                <div class="invalid-feedback position-absolute">
+                    <span [textContent]="passwordError$ | async"></span>
                 </div>
             </div>
 
             <div class="mb-3">
-                <label for="confirmPassword" class="form-label">Confirm password: </label>
-                <input id="confirmPassword" class="form-control" type="password" formControlName="confirmPassword"
-                    style='max-width: 200px;'>
+                <label for="confirmPasswordControl" class="form-label">Confirm password: </label>
+                <input id="confirmPasswordControl" class="form-control"
+                    [class.is-invalid]="confirmPasswordError$ | async" type="password"
+                    formControlName="confirmPasswordControl">
+                <div class="invalid-feedback">
+                    <span [textContent]="confirmPasswordError$ | async"></span>
+                </div>
             </div>
         </div>
-
-        <button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid">Submit</button>
+        <div>
+            <button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid">Submit</button>
+        </div>
     </form>
 </div>
