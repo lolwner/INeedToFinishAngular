@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { merge, Observable, timer } from 'rxjs';
@@ -13,7 +13,8 @@ import { UsernameResponse } from 'src/app/shared/usernameResponse';
 @Component({
   selector: 'app-register-reactive',
   templateUrl: './register-reactive.component.html',
-  styleUrls: ['./register-reactive.component.css']
+  styleUrls: ['./register-reactive.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterReactiveComponent implements OnInit {
 
@@ -155,8 +156,6 @@ export class RegisterReactiveComponent implements OnInit {
 
     console.log(model);
     this.authService.testRequest(model).subscribe(val => this.processPostBack(val), (err => { console.log(err) }))
-
-
   }
 
   public processPostBack(value: any) {
