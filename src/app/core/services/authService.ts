@@ -30,7 +30,7 @@ export class AuthService {
 
     public async checkUsernameIsValidAsync(input): Promise<UsernameResponse> {
         return null;
-      }
+    }
 
-    
+
 }

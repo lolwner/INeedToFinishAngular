@@ -46,7 +46,7 @@ export class RegisterReactiveComponent implements OnInit {
       {
         validator: ConfirmPasswordValidator('passwordControl', 'confirmPasswordControl')
       })
-  });
+  }, { updateOn: 'submit' });
 
   createAddressControl(): FormGroup {
     return this.fb.group({
