@@ -1,7 +1,7 @@
 <div class="container">
     <h1>Registration form</h1>
 
-    <form [formGroup]="profileForm" (ngSubmit)="submit()" style='max-width: 200px;'>
+    <form appFocusInvalidInput [formGroup]="profileForm" (ngSubmit)="submit()" style='max-width: 200px;'>
         <div class="mb-3">
             <label for="userNameControl" class="form-label">User name: </label>
             <input id="userNameControl" class="form-control" [class.is-invalid]="userNameError$ | async" type="text"

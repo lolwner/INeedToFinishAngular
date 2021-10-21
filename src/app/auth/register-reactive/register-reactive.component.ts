@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { merge, Observable, timer } from 'rxjs';
@@ -29,7 +29,7 @@ export class RegisterReactiveComponent implements OnInit {
   confirmPasswordError$: Observable<string>;
   passwordError$: Observable<string>;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private formValidationService: FormValidationService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private formValidationService: FormValidationService, private el: ElementRef) {
   }
 
   profileForm = this.fb.group({
@@ -143,6 +143,15 @@ export class RegisterReactiveComponent implements OnInit {
 
 
   submit() {
+
+    for (const key of Object.keys(this.profileForm.controls)) {
+      if (this.profileForm.controls[key].invalid) {
+        const invalidControl = this.el.nativeElement.querySelector('[formcontrolname="' + key + '"]');
+        invalidControl.focus();
+        break;
+      }
+    }
+
     var model: RegisterUser = {
       userName: this.userNameControl.value,
       email: this.emailControl.value,

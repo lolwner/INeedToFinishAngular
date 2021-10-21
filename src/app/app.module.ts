@@ -6,10 +6,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
+import { FocusInvalidInputDirective } from './shared/directives/focus-invalid-input.directive';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FocusInvalidInputDirective
   ],
   imports: [
     BrowserModule, 
