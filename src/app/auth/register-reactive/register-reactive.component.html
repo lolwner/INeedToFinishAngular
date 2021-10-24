@@ -1,7 +1,7 @@
 <div class="container">
     <h1>Registration form</h1>
 
-    <form appFocusInvalidInput [formGroup]="profileForm" (ngSubmit)="submit()" style='max-width: 200px;'>
+    <form [formGroup]="profileForm" (ngSubmit)="submit()" style='max-width: 200px;'>
         <div class="mb-3">
             <label for="userNameControl" class="form-label">User name: </label>
             <input id="userNameControl" class="form-control" [class.is-invalid]="userNameError$ | async" type="text"
@@ -30,7 +30,7 @@
         <div class="mb-3">
             <label for="genderControl" class="form-label">Gender: </label>
             <select class="form-control" formControlName="genderControl" [class.is-invalid]="genderError$ | async">
-                <option value="null" disabled>Choose your gender</option>
+                <!-- <option value="null" disabled>Choose your gender</option> -->
                 <option *ngFor="let gender of eGender | keyvalue" [value]="gender.value">{{gender.value}}</option>
             </select>
             <div class="invalid-feedback position-absolute">

@@ -33,7 +33,7 @@ export class RegisterReactiveComponent implements OnInit {
   }
 
   profileForm = this.fb.group({
-    userNameControl: this.fb.control("", [Validators.required, Validators.minLength(6)]),
+    userNameControl: this.fb.control("", [Validators.required,  Validators.minLength(6)]),
     firstNameControl: this.fb.control("", Validators.required),
     lastNameControl: this.fb.control("", Validators.required),
     genderControl: this.fb.control("", Validators.required),
@@ -46,7 +46,7 @@ export class RegisterReactiveComponent implements OnInit {
       {
         validator: ConfirmPasswordValidator('passwordControl', 'confirmPasswordControl')
       })
-  }, { updateOn: 'submit' });
+  });
 
   createAddressControl(): FormGroup {
     return this.fb.group({
@@ -141,15 +141,24 @@ export class RegisterReactiveComponent implements OnInit {
     return this.profileForm.get(["passwordGroup", "confirmPasswordControl"]) as FormControl;
   }
 
-
-  submit() {
-
+  private checkForm(): Boolean {
     for (const key of Object.keys(this.profileForm.controls)) {
       if (this.profileForm.controls[key].invalid) {
         const invalidControl = this.el.nativeElement.querySelector('[formcontrolname="' + key + '"]');
         invalidControl.focus();
-        break;
+        return false;
       }
+    }
+
+    return true;
+  }
+
+
+  public submit() {
+    let formIsPassing = this.checkForm();
+
+    if (!formIsPassing) {
+      return;
     }
 
     var model: RegisterUser = {
@@ -167,7 +176,7 @@ export class RegisterReactiveComponent implements OnInit {
     this.authService.testRequest(model).subscribe(val => this.processPostBack(val), (err => { console.log(err) }))
   }
 
-  public processPostBack(value: any) {
+  private processPostBack(value: any) {
     console.log(value);
     this.router.navigate(['/']);
   }
