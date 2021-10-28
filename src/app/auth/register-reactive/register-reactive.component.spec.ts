@@ -77,6 +77,7 @@ describe('RegisterReactiveComponent', () => {
       addresses: component.addressControl.value
     };
 
+    spyOn(component, 'checkForm').and.returnValue(true);
     spyOn(authServiceInjected, 'testRequest').withArgs(model).and.returnValue(new Observable<RegisterUser>());
 
     component.submit()

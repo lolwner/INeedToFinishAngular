@@ -141,7 +141,7 @@ export class RegisterReactiveComponent implements OnInit {
     return this.profileForm.get(["passwordGroup", "confirmPasswordControl"]) as FormControl;
   }
 
-  private checkForm(): Boolean {
+  public checkForm(): Boolean {
     for (const key of Object.keys(this.profileForm.controls)) {
       if (this.profileForm.controls[key].invalid) {
         const invalidControl = this.el.nativeElement.querySelector('[formcontrolname="' + key + '"]');
