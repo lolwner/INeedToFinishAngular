@@ -1,49 +1,53 @@
-<div class="container">
-    <h1>Registration form</h1>
+<div class="col-lg-5">
+    
 
-    <form [formGroup]="profileForm" (ngSubmit)="submit()" style='max-width: 200px;'>
+    <form [formGroup]="profileForm" (ngSubmit)="submit()" class="p-4 p-md-5 border rounded-3 bg-light mt-3">
+        <h1>Registration form</h1>
+        
         <div class="mb-3">
             <label for="userNameControl" class="form-label">User name: </label>
             <input id="userNameControl" class="form-control" [class.is-invalid]="userNameError$ | async" type="text"
-                formControlName="userNameControl" autocomplete="off" aria-describedby="userNameError">
-            <span id="userNameError" aria-live="assertive" class="invalid-feedback position-absolute" [textContent]="userNameError$ | async"></span>
+                formControlName="userNameControl" aria-describedby="userNameError">
+            <span id="userNameError" aria-live="polite" class="invalid-feedback position-absolute"
+                [textContent]="userNameError$ | async"></span>
         </div>
 
         <div class="mb-3">
             <label for="firstNameControl" class="form-label">First name: </label>
             <input id="firstNameControl" class="form-control" [class.is-invalid]="firstNameError$ | async" type="text"
-                formControlName="firstNameControl" autocomplete="off">
+                formControlName="firstNameControl" autocomplete="off" aria-describedby="firstNameError">
             <div class="invalid-feedback position-absolute">
-                <span [textContent]="firstNameError$ | async"></span>
+                <span id="firstNameError" [textContent]="firstNameError$ | async"></span>
             </div>
         </div>
 
         <div class="mb-3">
             <label for="lastNameControl" class="form-label">Last name: </label>
             <input id="lastNameControl" class="form-control" [class.is-invalid]="lastNameError$ | async" type="text"
-                formControlName="lastNameControl" autocomplete="off">
+                formControlName="lastNameControl" autocomplete="off" aria-describedby="lastNameError">
             <div class="invalid-feedback position-absolute">
-                <span [textContent]="lastNameError$ | async"></span>
+                <span id="lastNameError" [textContent]="lastNameError$ | async"></span>
             </div>
         </div>
 
         <div class="mb-3">
             <label for="genderControl" class="form-label">Gender: </label>
-            <select class="form-control" formControlName="genderControl" [class.is-invalid]="genderError$ | async">
+            <select class="form-control" formControlName="genderControl" [class.is-invalid]="genderError$ | async"
+                aria-describedby="genderError">
                 <!-- <option value="null" disabled>Choose your gender</option> -->
                 <option *ngFor="let gender of eGender | keyvalue" [value]="gender.value">{{gender.value}}</option>
             </select>
             <div class="invalid-feedback position-absolute">
-                <span [textContent]="genderError$ | async"></span>
+                <span id="genderError" [textContent]="genderError$ | async"></span>
             </div>
         </div>
 
         <div class="mb-3">
             <label for="emailControl" class="form-label">Email: </label>
             <input id="emailControl" class="form-control" [class.is-invalid]="emailError$ | async" type="email"
-                formControlName="emailControl" autocomplete="off">
+                formControlName="emailControl" autocomplete="off" aria-describedby="emailError">
             <div class="invalid-feedback position-absolute">
-                <span [textContent]="emailError$ | async"></span>
+                <span id="emailError" [textContent]="emailError$ | async"></span>
             </div>
         </div>
 
@@ -71,9 +75,9 @@
                 <label for="passwordControl" class="form-label">Password: </label>
                 <input id="passwordControl" class="form-control" class="form-control"
                     [class.is-invalid]="passwordError$ | async" type="password" formControlName="passwordControl"
-                    autocomplete="off">
+                    autocomplete="off" aria-describedby="passwordError">
                 <div class="invalid-feedback position-absolute">
-                    <span [textContent]="passwordError$ | async"></span>
+                    <span id="passwordError" [textContent]="passwordError$ | async"></span>
                 </div>
             </div>
 
@@ -81,14 +85,14 @@
                 <label for="confirmPasswordControl" class="form-label">Confirm password: </label>
                 <input id="confirmPasswordControl" class="form-control"
                     [class.is-invalid]="confirmPasswordError$ | async" type="password"
-                    formControlName="confirmPasswordControl">
+                    formControlName="confirmPasswordControl" aria-describedby="confirmPasswordError">
                 <div class="invalid-feedback">
-                    <span [textContent]="confirmPasswordError$ | async"></span>
+                    <span id="confirmPasswordError" [textContent]="confirmPasswordError$ | async"></span>
                 </div>
             </div>
         </div>
         <div>
-            <button type="submit" class="btn btn-primary" >Submit</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
             <!-- [disabled]="!profileForm.valid" -->
         </div>
     </form>

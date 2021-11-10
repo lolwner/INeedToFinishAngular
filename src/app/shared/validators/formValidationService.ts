@@ -80,6 +80,9 @@ export class FormValidationService {
             const result = Object.keys(c.errors).map(key => {
                 let inputValue = '';
                 switch (key) {
+                    case ErrorKey.required:
+                        inputValue = c.errors[key][ValueKeys.required];
+                        break;
                     case ErrorKey.min:
                         inputValue = c.errors[key][ValueKeys.min];
                         break;
@@ -128,6 +131,7 @@ export class FormValidationService {
 }
 
 enum ErrorKey {
+    required = "required",
     min = 'min',
     max = 'max',
     minlength = 'minlength',
@@ -142,6 +146,7 @@ enum ErrorKey {
 }
 
 enum ValueKeys {
+    required = "required",
     min = 'min',
     max = 'max',
     minValue = 'minValue',
