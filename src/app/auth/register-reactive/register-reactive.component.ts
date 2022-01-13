@@ -172,12 +172,10 @@ export class RegisterReactiveComponent implements OnInit {
       addresses: this.addressControl.value
     };
 
-    console.log(model);
     this.authService.testRequest(model).subscribe(val => this.processPostBack(val), (err => { console.log(err) }))
   }
 
   private processPostBack(value: any) {
-    console.log(value);
     this.router.navigate(['/']);
   }
 
