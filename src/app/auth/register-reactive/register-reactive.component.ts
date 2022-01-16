@@ -156,7 +156,7 @@ export class RegisterReactiveComponent implements OnInit {
 
   public submit() {
     let formIsPassing = this.checkForm();
-
+    this.formValidationService.validateForm(this.profileForm);
     if (!formIsPassing) {
       return;
     }
